@@ -1,0 +1,27 @@
+version: "3.1"
+
+services:
+    django:
+        container_name: tz
+        image: $REGISTRY_URL:latest
+        volumes:
+            - /docker_volumes/complaints_storage:/source/media
+        ports:
+            - 8432:8000
+        networks:
+            - complaints
+
+    scheduler:
+        image: mcuadros/ofelia:latest
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ./config.ini:/etc/ofelia/config.ini
+        environment:
+            - TZ=Asia/Bishkek
+        networks:
+            - complaints
+volumes:
+    complaints_complaints:
+networks:
+  complaints:
+    external: true
